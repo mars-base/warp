@@ -1,0 +1,49 @@
+name: Build macOS ARM
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build macOS aarch64
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare environment
+        uses: ./.github/actions/prepare_environment
+        with:
+          target_os: macos
+          is_self_hosted: false
+          install_release_deps: true
+
+      - name: Ensure rust target
+        run: rustup target add aarch64-apple-darwin
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: stable
+
+      - name: Install cargo-bundle
+        run: script/install_cargo_bundle
+
+      - name: Install create-dmg
+        run: brew install create-dmg
+
+      - name: Build macOS aarch64 bundle
+        id: bundle_app
+        run: |
+          script/bundle --channel local --arch aarch64 --dmg-name-suffix arm64
+        env:
+          CHANNEL: local
+          GIT_RELEASE_TAG: ${{ github.ref_name }}
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: warp-macos-arm64-${{ github.ref_name }}
+          path: "*.dmg"
