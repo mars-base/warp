@@ -1,6 +1,10 @@
 on:
+  push:
+    branches:
+      - 'main'
   pull_request:
     branches:
+      - 'main'
       - 'master'
       - '*_release/*'
     types:
@@ -73,15 +77,13 @@ jobs:
       - name: Determine macOS runner type
         id: mac_runner_type
         run: |
-          RUNNER_TYPE='["namespace-profile-mac-ci"]'
+          RUNNER_TYPE='["macos-latest"]'
           echo "value=$RUNNER_TYPE" >> $GITHUB_OUTPUT
 
       - name: Determine wasm runner type
         id: wasm_runner_type
         run: |
-          # Use a larger (16 core, 64GB ram) runner on Linux to speed up execution time.
-          # https://github.com/warpdotdev/warp-internal/settings/actions/runners
-          RUNNER_TYPE='["ubuntu-latest-large"]'
+          RUNNER_TYPE='["ubuntu-latest"]'
           echo "value=$RUNNER_TYPE" >> $GITHUB_OUTPUT
 
   tests:
