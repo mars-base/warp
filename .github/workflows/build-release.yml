@@ -82,8 +82,52 @@ jobs:
           CHANNEL: local
           GIT_RELEASE_TAG: ${{ github.ref_name }}
 
-      - name: Upload Linux artifacts
+      - name: Upload Linux x86_64 artifacts
         uses: actions/upload-artifact@v4
         with:
           name: warp-linux-x86_64-${{ github.ref_name }}
+          path: target/*/bundle/linux/
+
+  build-linux-arm:
+    name: Build Linux aarch64
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 90
+    env:
+      APPIMAGE_EXTRACT_AND_RUN: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare environment
+        uses: ./.github/actions/prepare_environment
+        with:
+          target_os: linux
+          is_self_hosted: false
+          install_release_deps: true
+
+      - name: Install and configure gcc-10
+        run: |
+          sudo apt update
+          sudo apt install -y gcc-10 g++-10
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 60 --slave /usr/bin/g++ g++ /usr/bin/g++-10
+
+      - name: Update PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install linuxdeploy
+        run: script/linux/install_linuxdeploy
+
+      - name: Clean stale bundle output
+        run: rm -rf target/*/bundle/linux
+
+      - name: Build Linux aarch64 bundle
+        run: |
+          script/bundle --channel local --packages appimage
+        env:
+          CHANNEL: local
+          GIT_RELEASE_TAG: ${{ github.ref_name }}
+
+      - name: Upload Linux aarch64 artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: warp-linux-arm64-${{ github.ref_name }}
           path: target/*/bundle/linux/
