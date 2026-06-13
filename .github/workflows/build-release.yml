@@ -36,9 +36,9 @@ jobs:
 
       - name: Build macOS aarch64 bundle
         run: |
-          script/bundle --channel local --arch aarch64 --dmg-name-suffix arm64
+          script/bundle --channel oss --arch aarch64 --dmg-name-suffix arm64
         env:
-          CHANNEL: local
+          CHANNEL: oss
           GIT_RELEASE_TAG: ${{ github.ref_name }}
 
       - name: Upload DMG artifact
@@ -77,9 +77,9 @@ jobs:
 
       - name: Build Linux x86_64 bundle
         run: |
-          script/bundle --channel local --packages appimage,deb,rpm
+          script/bundle --channel oss --packages appimage,deb,rpm
         env:
-          CHANNEL: local
+          CHANNEL: oss
           GIT_RELEASE_TAG: ${{ github.ref_name }}
 
       - name: Upload Linux x86_64 artifacts
@@ -121,9 +121,9 @@ jobs:
 
       - name: Build Linux aarch64 bundle
         run: |
-          script/bundle --channel local --packages appimage
+          script/bundle --channel oss --packages appimage
         env:
-          CHANNEL: local
+          CHANNEL: oss
           GIT_RELEASE_TAG: ${{ github.ref_name }}
 
       - name: Upload Linux aarch64 artifacts
