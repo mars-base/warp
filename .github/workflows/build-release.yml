@@ -9,7 +9,7 @@ jobs:
   build-macos:
     name: Build macOS aarch64
     runs-on: macos-latest
-    timeout-minutes: 60
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
 
