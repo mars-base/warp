@@ -659,6 +659,12 @@ jobs:
           # Don't fetch LFS objects; this job doesn't need binary assets.
           lfs: false
 
+      - name: Disable Git LFS smudge filter
+        run: |
+          git lfs uninstall
+          git config --global filter.lfs.smudge "git-lfs smudge --skip %f"
+          git config --global filter.lfs.process "git-lfs filter-process --skip"
+
       - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
         with:
           # Only cache runs on the master branch (caches on feature branches

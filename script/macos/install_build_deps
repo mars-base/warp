@@ -2,4 +2,7 @@
 #
 # Installs macOS-specific build dependencies required to build Warp.
 
-xcodebuild -downloadComponent MetalToolchain
+# The old `xcodebuild -downloadComponent MetalToolchain` flag was removed in
+# newer Xcode versions. Use `-runFirstLaunch` instead, which installs required
+# components (including Metal toolchain) if they are not already present.
+xcodebuild -runFirstLaunch

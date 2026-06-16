@@ -95,6 +95,8 @@ runs:
         ./script/install_channel_config || true
         if ${{ inputs.install_release_deps == 'true' }}; then
           ./script/install_cargo_release_deps
+        elif ${{ inputs.install_test_deps == 'true' }}; then
+          ./script/install_cargo_test_deps
         else
           ./script/install_cargo_build_deps
         fi
