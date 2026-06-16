@@ -85,46 +85,56 @@ runs:
       with:
         ssh-private-key: ${{ inputs.ssh_key }}
 
-    - name: Install dependencies
+    - name: Install dependencies (macOS)
+      if: ${{ inputs.target_os == 'macos' }}
       shell: bash
       run: |
         cd "${{ steps.repo-root.outputs.path }}"
-        if ${{ inputs.target_os == 'macos' }}; then
-          # Try to install warp-channel-config but don't complain if it cannot
-          # be installed.
-          ./script/install_channel_config || true
-          if ${{ inputs.install_release_deps == 'true' }}; then
-            ./script/install_cargo_release_deps
-          else
-            ./script/install_cargo_build_deps
-          fi
-        elif ${{ inputs.target_os == 'linux' }}; then
-          # Update the apt cache before installing dependencies - it can be slow, so the install scripts
-          # don't do it.
-          sudo apt-get update -y
-
-          if ${{ inputs.install_test_deps == 'true' }}; then
-            ./script/linux/install_test_deps
-          elif ${{ inputs.install_release_deps == 'true' }}; then
-            ./script/linux/install_build_deps
-            ./script/install_cargo_release_deps
-          else
-            ./script/linux/install_build_deps
-          fi
-        elif ${{ inputs.target_os == 'windows' }}; then
-          ./script/windows/install_build_deps.ps1
-          if ${{ inputs.install_release_deps == 'true' }}; then
-            ./script/install_cargo_release_deps
-          fi
-        elif ${{ inputs.target_os == 'wasm' }}; then
-          # Update the apt cache before installing dependencies - it can be slow, so the install scripts
-          # don't do it (to avoid doing it more than once).
-          sudo apt update -y
-          ./script/wasm/install_build_deps
+        # Try to install warp-channel-config but don't complain if it cannot
+        # be installed.
+        ./script/install_channel_config || true
+        if ${{ inputs.install_release_deps == 'true' }}; then
+          ./script/install_cargo_release_deps
         else
-          echo "::error::Missing logic to install build dependencies for OS \"${{ inputs.target_os }}\""
-          exit 1
+          ./script/install_cargo_build_deps
         fi
+
+    - name: Install dependencies (Linux)
+      if: ${{ inputs.target_os == 'linux' }}
+      shell: bash
+      run: |
+        cd "${{ steps.repo-root.outputs.path }}"
+        # Update the apt cache before installing dependencies - it can be slow, so the install scripts
+        # don't do it.
+        sudo apt-get update -y
+        if ${{ inputs.install_test_deps == 'true' }}; then
+          ./script/linux/install_test_deps
+        elif ${{ inputs.install_release_deps == 'true' }}; then
+          ./script/linux/install_build_deps
+          ./script/install_cargo_release_deps
+        else
+          ./script/linux/install_build_deps
+        fi
+
+    - name: Install dependencies (Windows)
+      if: ${{ inputs.target_os == 'windows' }}
+      shell: bash
+      run: |
+        cd "${{ steps.repo-root.outputs.path }}"
+        ./script/windows/install_build_deps.ps1
+        if ${{ inputs.install_release_deps == 'true' }}; then
+          ./script/install_cargo_release_deps
+        fi
+
+    - name: Install dependencies (wasm)
+      if: ${{ inputs.target_os == 'wasm' }}
+      shell: bash
+      run: |
+        cd "${{ steps.repo-root.outputs.path }}"
+        # Update the apt cache before installing dependencies - it can be slow, so the install scripts
+        # don't do it (to avoid doing it more than once).
+        sudo apt update -y
+        ./script/wasm/install_build_deps
 
     - name: Install Node
       uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
@@ -161,5 +171,6 @@ runs:
 
     - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
       if: ${{ inputs.target_os == 'macos' && inputs.is_self_hosted != 'true' }}
+      continue-on-error: true
       with:
         xcode-version: 'latest-stable'
