@@ -1,26 +1,30 @@
-on:
-  push:
-    branches:
-      - 'main'
-  pull_request:
-    branches:
-      - 'main'
-      - 'master'
-      - '*_release/*'
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - ready_for_review
-  workflow_dispatch:
-    inputs:
-      runner_type:
-        required: true
-        type: choice
-        options:
-          - self_hosted
-          - github_hosted
-  workflow_call:
+# Disabled: this workflow is no longer triggered automatically.
+# To run it manually, restore the trigger block below.
+# on:
+#   push:
+#     branches:
+#       - 'main'
+#   pull_request:
+#     branches:
+#       - 'main'
+#       - 'master'
+#       - '*_release/*'
+#     types:
+#       - opened
+#       - reopened
+#       - synchronize
+#       - ready_for_review
+#   workflow_dispatch:
+#     inputs:
+#       runner_type:
+#         required: true
+#         type: choice
+#         options:
+#           - self_hosted
+#           - github_hosted
+#   workflow_call:
+
+on: workflow_dispatch
 
 name: Warp CI
 
