@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: warp-macos-arm64-${{ github.ref_name }}
-          path: "*.dmg"
+          path: target/release-lto/bundle/osx/*.dmg
 
   build-linux:
     name: Build Linux x86_64
