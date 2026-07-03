@@ -1,9 +1,13 @@
 name: Feature Flag Cleanup
 
-on:
-  schedule:
-    - cron: '0 15 * * *' # 10am EST
-  workflow_dispatch:
+# Disabled: this workflow requires warpdotdev-specific secrets and namespace runners
+# not available on forks. Keep file but don't auto-trigger.
+# on:
+#   schedule:
+#     - cron: '0 15 * * *' # 10am EST
+#   workflow_dispatch:
+
+on: workflow_dispatch
 
 # Default to a read-only token. Jobs that need to push or open PRs widen
 # permissions explicitly below.

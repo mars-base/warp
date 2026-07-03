@@ -1,7 +1,12 @@
 name: Update PR Review Skill (Local)
+# Disabled: depends on warpdotdev/oz-for-oss secrets not available on forks.
+# Keep file but don't auto-trigger.
+# on:
+#   schedule:
+#     - cron: '0 9 * * 1'  # Every Monday at 09:00 UTC
+#   workflow_dispatch:
+
 on:
-  schedule:
-    - cron: '0 9 * * 1'  # Every Monday at 09:00 UTC
   workflow_dispatch:
     inputs:
       lookback_days:

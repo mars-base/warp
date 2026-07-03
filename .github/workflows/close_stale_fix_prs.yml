@@ -13,10 +13,14 @@
 # ======================================================================================
 
 name: Close Stale Fix PRs
-on:
-  schedule:
-    - cron: '0 12 * * *' # 8am EST
-  workflow_dispatch:
+# Disabled: this workflow closes oz-agent fix PRs, which only exist on upstream.
+# Keep file but don't auto-trigger.
+# on:
+#   schedule:
+#     - cron: '0 12 * * *' # 8am EST
+#   workflow_dispatch:
+
+on: workflow_dispatch
 
 jobs:
   close-stale-fix-prs:

@@ -1,21 +1,19 @@
-on:
-  push:
-    branches:
-      # Potentially run this workflow whenever the master branch changes in,
-      # order to update the cache if necessary.
-      - master
-    paths:
-      # We only need to run this if there were changes to files that affect
-      # the cache key.
-      - 'Cargo.lock'
-      - '**/Cargo.toml'
-      - '.cargo/config.toml'
-      - 'rust-toolchain.toml'
-  # Run once per day to ensure the cache is populated even if we haven't
-  # modified Cargo.lock or Cargo.toml in a while.
-  schedule:
-    - cron: "0 8 * * 1-5" # Run every weekday at 3am EST.
-  workflow_dispatch:
+# Disabled: this workflow pushes to master branch and requires namespace runners
+# not available on forks. Keep file but don't auto-trigger.
+# on:
+#   push:
+#     branches:
+#       - master
+#     paths:
+#       - 'Cargo.lock'
+#       - '**/Cargo.toml'
+#       - '.cargo/config.toml'
+#       - 'rust-toolchain.toml'
+#   schedule:
+#     - cron: "0 8 * * 1-5"
+#   workflow_dispatch:
+
+on: workflow_dispatch
 
 name: Populate Build Cache
 
