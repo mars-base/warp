@@ -5,11 +5,16 @@
 # channels, or all release channels.  Releases run in parallel where able.
 
 name: Cut New Releases
-on:
-  schedule:
-    # Run this job every morning at 3am EST.
-    - cron: "0 8 * * *"
 
+# Disabled: this workflow only works on the upstream warpdotdev/warp-internal
+# repository (hardcoded to master branch). Keep file but don't auto-trigger.
+# on:
+#   schedule:
+#     # Run this job every morning at 3am EST.
+#     - cron: "0 8 * * *"
+#   workflow_dispatch:
+
+on:
   workflow_dispatch:
     inputs:
       targets:
