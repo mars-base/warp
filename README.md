@@ -1,3 +1,28 @@
+> [!IMPORTANT]
+> ## ⚠️ 安装须知 / Installation Notes
+>
+> **🔗 下载地址 / Download:** [Releases](https://github.com/mars-base/warp/releases)
+>
+> ### 🐧 Linux
+> After installing the deb package, the desktop icon may fail to launch. Copy the binary to `/usr/local/bin/` to fix:
+> 安装 deb 包后，桌面图标可能无法启动程序。将二进制文件复制到 `/usr/local/bin/` 即可：
+> ```bash
+> sudo cp /opt/warpdotdev/warp-terminal-oss/warp-oss /usr/local/bin/warp-terminal-oss
+> ```
+>
+> ### 🍎 macOS
+> The OSS DMG is **not signed by Apple**. macOS will show a "damaged" error when opening. Remove quarantine:
+> OSS 构建的 DMG **没有 Apple 签名**，下载后直接打开会提示"文件已损坏"。解除隔离属性：
+> ```bash
+> # Drag Warp.app into /Applications first, then run: | 先将 Warp.app 拖入 /Applications，然后执行：
+> sudo xattr -rd com.apple.quarantine /Applications/Warp.app
+> ```
+> If still blocked, also remove the ad-hoc signature: | 如仍提示损坏，再移除 ad-hoc 签名：
+> ```bash
+> codesign --remove-signature /Applications/Warp.app
+> ```
+> ---
+
 <a href="https://www.warp.dev">
     <img width="1024" alt="Warp Agentic Development Environment product preview" src="https://github.com/user-attachments/assets/9976b2da-2edd-4604-a36c-8fd53719c6d4" />
 </a>
