@@ -24,7 +24,7 @@ jobs:
         run: rustup target add aarch64-apple-darwin
 
       - name: Setup Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v6.4.0
         with:
           go-version: stable
 
