@@ -42,7 +42,7 @@ jobs:
           GIT_RELEASE_TAG: ${{ github.ref_name }}
 
       - name: Upload DMG artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: warp-macos-arm64-${{ github.ref_name }}
           path: target/release-lto/bundle/osx/*.dmg
@@ -84,7 +84,7 @@ jobs:
           GIT_RELEASE_TAG: ${{ github.ref_name }}
 
       - name: Upload Linux x86_64 artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: warp-linux-x86_64-${{ github.ref_name }}
           path: target/*/bundle/linux/
@@ -129,7 +129,7 @@ jobs:
           GIT_RELEASE_TAG: ${{ github.ref_name }}
 
       - name: Upload Linux aarch64 artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: warp-linux-arm64-${{ github.ref_name }}
           path: target/*/bundle/linux/
